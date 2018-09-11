@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.truck.dao.InfoMapper">
+        <resultMap id="BaseResultMap" type="com.truck.pojo.Info">
+            <constructor >
+                <idArg column="logistics_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+                <arg column="admin_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+                <arg column="order_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+                <arg column="custom_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+                <arg column="staff_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+                <arg column="delivery_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+                <arg column="destination" jdbcType="VARCHAR" javaType="java.lang.String" />
+                <arg column="delivery_warehouse" jdbcType="VARCHAR" javaType="java.lang.String" />
+                <arg column="shipping_director" jdbcType="VARCHAR" javaType="java.lang.String" />
+                <arg column="logistics_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+                <arg column="order_detail_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+                <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+                <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            </constructor>
+        </resultMap>
+        <sql id="Base_Column_List">
+            logistics_id, admin_id, order_id, custom_id , staff_id, delivery_time, destination, delivery_warehouse,
+            shipping_director,logistics_no, order_detail_id,create_time, update_time
+        </sql>
+        <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+            select
+            <include refid="Base_Column_List" />
+            from truck_lis_info
+            where logistics_id = #{logisticsId,jdbcType=INTEGER}
+        </select>
+        <select id="selectByOrderDetailId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+            select
+            <include refid="Base_Column_List" />
+            from truck_lis_info
+            where order_detail_id = #{orderDetailId,jdbcType=INTEGER}
+        </select>
+        <select id="selectByOrderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+            select
+            <include refid="Base_Column_List" />
+            from truck_lis_info
+            where order_id = #{orderId,jdbcType=INTEGER}
+        </select>
+        <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+            delete from truck_lis_info
+            where logistics_id = #{logisticsId,jdbcType=INTEGER}
+        </delete>
+            <insert id="insert" parameterType="com.truck.pojo.Info" useGeneratedKeys="true" keyProperty="logisticsId">
+            insert into truck_lis_info (logistics_id, admin_id, order_id,
+              custom_id, staff_id, delivery_time,
+              destination, delivery_warehouse, shipping_director,
+              logistics_no, order_detail_id, create_time, update_time)
+            values (#{logisticsId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER},
+              #{customId,jdbcType=INTEGER}, #{staffId}, #{deliveryTime,jdbcType=TIMESTAMP},
+              #{destination,jdbcType=VARCHAR}, #{deliveryWarehouse,jdbcType=VARCHAR}, #{shippingDirector,jdbcType=VARCHAR},
+              #{logisticsNo,jdbcType=VARCHAR}, #{orderDetailId,jdbcType=INTEGER}, now(),
+              now())
+          </insert>
+    <insert id="insertSelective" parameterType="com.truck.pojo.Info" useGeneratedKeys="true" keyProperty="logisticsId">
+        insert into truck_lis_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="logisticsId != null" >
+                logistics_id,
+            </if>
+            <if test="adminId != null" >
+                admin_id,
+            </if>
+            <if test="orderId != null" >
+                order_id,
+            </if>
+            <if test="customId != null" >
+                custom_id,
+            </if>
+            <if test="staffId != null" >
+                staff_id,
+            </if>
+                delivery_time,
+            <if test="destination != null" >
+                destination,
+            </if>
+            <if test="deliveryWarehouse != null" >
+                delivery_warehouse,
+            </if>
+            <if test="shippingDirector != null" >
+                shipping_director,
+            </if>
+            <if test="logisticsNo != null" >
+                logistics_no,
+            </if>
+            <if test="orderDetailId != null" >
+                order_detail_id,
+            </if>
+                create_time,
+                update_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="logisticsId != null" >
+                #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="adminId != null" >
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null" >
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="customId != null" >
+                #{customId,jdbcType=INTEGER},
+            </if>
+            <if test="staffId != null" >
+                #{staffId},
+            </if>
+            now(),
+            <if test="destination != null" >
+                #{destination,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryWarehouse != null" >
+                #{deliveryWarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingDirector != null" >
+                #{shippingDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsNo != null" >
+                #{logisticsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDetailId != null" >
+                #{orderDetailId,jdbcType=INTEGER},
+            </if>
+                now(),
+                now(),
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.truck.pojo.Info" >
+        update truck_lis_info
+        <set >
+            <if test="adminId != null" >
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="customId != null" >
+                custom_id = #{customId,jdbcType=INTEGER},
+            </if>
+            <if test="staffId != null" >
+                staff_id = #{staffId},
+            </if>
+            <if test="deliveryTime != null" >
+                delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="destination != null" >
+                destination = #{destination,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryWarehouse != null" >
+                delivery_warehouse = #{deliveryWarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingDirector != null" >
+                shipping_director = #{shippingDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsNo != null" >
+                logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDetailId != null" >
+                order_detail_id = #{orderDetailId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+                update_time = now(),
+        </set>
+        where logistics_id = #{logisticsId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.truck.pojo.Info" >
+        update truck_lis_info
+        set admin_id = #{adminId,jdbcType=INTEGER},
+        order_id = #{orderId,jdbcType=INTEGER},
+        custom_id = #{customId,jdbcType=INTEGER},
+        staff_id = #{staffId},
+        delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+        destination = #{destination,jdbcType=VARCHAR},
+        delivery_warehouse = #{deliveryWarehouse,jdbcType=VARCHAR},
+        shipping_director = #{shippingDirector,jdbcType=VARCHAR},
+        logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+        order_detail_id = #{orderDetailId,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now()
+        where logistics_id = #{logisticsId,jdbcType=INTEGER}
+    </update>
+
+        <delete id="deleteByLisIdUserId" parameterType="map">
+            DELETE  FROM  truck_lis_info
+            where logistics_id = #{logisticsId}
+            and admin_id = #{adminId}
+        </delete>
+
+        <update id="updateByInfo" parameterType="com.truck.pojo.Info">
+            update truck_lis_info
+            set order_id = #{orderId,jdbcType=INTEGER},
+            staff_id = #{staffId},
+            delivery_time= #{deliveryTime,jdbcType=VARCHAR},
+            admin_id = #{adminId,jdbcType=INTEGER},
+            custom_id = #{customId,jdbcType=INTEGER},
+            destination = #{destination,jdbcType=VARCHAR},
+            delivery_warehouse = #{deliveryWarehouse,jdbcType=VARCHAR},
+            shipping_director = #{shippingDirector,jdbcType=VARCHAR},
+            logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+            order_detail_id = #{orderDetailId,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = now()
+            where logistics_id = #{logisticsId,jdbcType=INTEGER}
+            and admin_id = #{adminId,jdbcType=INTEGER}
+        </update>
+
+        <select id="selectByLisIdUserId" parameterType="map" resultMap="BaseResultMap">
+            SELECT
+            <include refid="Base_Column_List" />
+            from truck_lis_info
+            where logistics_id = #{logisticsId}
+            and admin_id = #{adminId}
+        </select>
+
+        <select id="selectByLisId" parameterType="map" resultMap="BaseResultMap">
+            SELECT
+            <include refid="Base_Column_List" />
+            from truck_lis_info
+            where logistics_id = #{logisticsId}
+        </select>
+
+
+        <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
+            SELECT
+            <include refid="Base_Column_List" />
+            from truck_lis_info
+            where admin_id = #{adminId}
+            <if test="logisticsNo !=null">
+                and logistics_no like #{logisticsNo}
+            </if>
+            <if test="orderId !=null">
+                and order_id=#{orderId}
+            </if>
+        </select>
+
+        <select id="checkInfoNum" resultType="int" parameterType="java.lang.Integer">
+            select count(1)
+            from truck_lis_info
+            where order_detail_id=#{orderDetailId}
+        </select>
+</mapper>

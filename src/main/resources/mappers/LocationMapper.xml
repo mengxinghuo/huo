@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.truck.dao.LocationMapper" >
+  <resultMap id="BaseResultMap" type="com.truck.pojo.Location" >
+    <constructor >
+      <arg column="logistics_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="lng" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="lat" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="current_times" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="is_transfer_station" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="transfer_station_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    logistics_id, lng, lat,  current_times, is_transfer_station, transfer_station_id
+  </sql>
+  <insert id="insert" parameterType="com.truck.pojo.Location" >
+    insert into truck_lis_location (logistics_id, lng, lat,
+    current_times, is_transfer_station, transfer_station_id
+    )
+    values (#{logisticsId,jdbcType=INTEGER}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},
+    #{currentTimes,jdbcType=TIMESTAMP}, #{isTransferStation,jdbcType=INTEGER}, #{transferStationId,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.truck.pojo.Location" >
+    insert into truck_lis_location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logisticsId != null" >
+        logistics_id,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+        current_times,
+      <if test="isTransferStation != null" >
+        is_transfer_station,
+      </if>
+      <if test="transferStationId != null" >
+        transfer_station_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logisticsId != null" >
+        #{logisticsId,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=DOUBLE},
+      </if>
+     now(),
+      <if test="isTransferStation != null" >
+        #{isTransferStation,jdbcType=INTEGER},
+      </if>
+      <if test="transferStationId != null" >
+        #{transferStationId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByLisId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from truck_lis_location
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </select>
+  <select id="selectStationByLisId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from truck_lis_location
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+    and is_transfer_station=1
+  </select>
+</mapper>
